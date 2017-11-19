@@ -2,24 +2,16 @@
   <div>
     <h1>{{ title }}</h1>
     <ul>
-      <li v-for="person in people">{{ person.name }}</li>
+      <li v-for="person in people">
+        {{ person.github.profile.displayName }}
+      </li>
     </ul>
-    <a href="http://localhost:3000/auth/github" class="button">Login With GitHub</a>
-    <button @click="findUsers">Request</button>
+    <button @click="logout">Logout</button>
   </div>
 </template>
 
 <script>
-import feathers from 'feathers/client';
-import rest from 'feathers-rest/client';
-import hooks from 'feathers-hooks';
-// import errors from 'feathers-errors';
-import auth from 'feathers-authentication-client';
-
-const client = feathers()
-  .configure(rest('http://localhost:3000').fetch(fetch))
-  .configure(hooks())
-  .configure(auth());
+import client from '../utils/feathers';
 
 const userService = client.service('/users');
 
@@ -27,21 +19,25 @@ export default {
   name: 'PeopleList',
   data() {
     return {
-      title: 'People',
-      people: [
-        { name: 'Alex' },
-        { name: 'Fanny' },
-      ],
+      title: 'tagr',
+      people: [],
     };
   },
   methods: {
-    findUsers() {
-      userService.find()
+    logout() {
+      client.logout()
+        .then(this.$router.push({ path: '/login' }))
         // eslint-disable-next-line
-        .then(result => console.log(result))
-        // eslint-disable-next-line
-        .catch(error => console.log(error));
+        .catch(console.error);
     },
+  },
+  beforeMount() {
+    userService.find()
+      .then((result) => {
+        this.people = result.data;
+      })
+      // eslint-disable-next-line
+      .catch(error => console.log(error));
   },
 };
 </script>
