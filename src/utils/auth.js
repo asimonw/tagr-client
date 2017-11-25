@@ -1,9 +1,9 @@
 import client from '../utils/feathers';
 
-const JWT_TOKEN_ID = 'feathers-jwt';
+// const JWT_TOKEN_ID = 'feathers-jwt';
 
-const getToken = () => window.localStorage.getItem(JWT_TOKEN_ID);
-const isLoggedIn = () => !!getToken();
+// const getToken = () => window.localStorage.getItem(JWT_TOKEN_ID);
+// const isLoggedIn = () => !!getToken();
 const requireAuth = (to, from, next) => {
   client.passport.getJWT()
     .then(token => client.passport.verifyJWT(token))
@@ -24,7 +24,7 @@ const requireAuth = (to, from, next) => {
 };
 
 export default {
-  getToken,
-  isLoggedIn,
+  // getToken,
+  // isLoggedIn,
   requireAuth,
 };

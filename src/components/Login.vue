@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div class="tc">
     <h1>{{ title }}</h1>
-    <a href="http://localhost:3000/auth/github">Log in with GitHub</a>
+    <a href="http://localhost:3000/auth/github"
+      class="link no-underline dim black-60">Log in with GitHub</a>
   </div>
 </template>
 
